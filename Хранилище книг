@@ -76,54 +76,65 @@ class Library
         }
     }
 
-    private void ShowAllBooks()
+    private void ShowBooks(List<Book> books, string message)
     {
-        Console.WriteLine("\nСписок всех книг в библиотеке: ");
+        Console.WriteLine("\n" + message);
 
-        for (int i = 0; i < _library.Count; i++)
+        for (int i = 0; i < books.Count; i++)
         {
             Console.WriteLine(i + 1 + ": ");
-            _library[i].ShowInfoBook();
+            books[i].ShowInfoBook();
         }
     }
 
-    private void ShowBooksByName()
+    private void ShowAllBooks()
     {
+        ShowBooks(_library, "Список всех книг в библиотеке: ");
+    }
+
+    private void SearchBooksByName()
+    {
+        List<Book> foundBooks = new List<Book>();
+
         Console.WriteLine("Введите название книги: ");
-        string userInput = Console.ReadLine();
+        string userInput = Console.ReadLine().ToLower();
 
-        List<Book> foundBook = _library.Where(book => book.NameBook.ToLower().Contains(userInput.ToLower())).ToList();
-
-        if (foundBook.Any())
+        foreach (Book book in _library)
         {
-            Console.WriteLine("Список найденных книг по имени: ");
-
-            foreach (Book book in foundBook)
+            if (book.NameBook.ToLower().Contains(userInput))
             {
-                book.ShowInfoBook();
+                foundBooks.Add(book);
             }
+        }
+
+        if (foundBooks.Count > 0)
+        {
+            ShowBooks(foundBooks, "Список найденных книг по имени: ");
         }
         else
         {
             Console.WriteLine("Книг с таким наименованием не найдено.");
-        }   
+        }
     }
 
-    private void ShowBooksByAuthor()
+    private void SearchBooksByAuthor()
     {
+        List<Book> foundBooks = new List<Book>();
+
         Console.WriteLine("Введите автора книги: ");
         string userInput = Console.ReadLine();
 
-        List<Book> foundBook = _library.Where(book => book.Author.ToLower().Contains(userInput.ToLower())).ToList();
-
-        if (foundBook.Any())
+        foreach (Book book in _library)
         {
-            Console.WriteLine("Список найденных книг по автору: ");
-
-            foreach (Book book in foundBook)
+            if (book.Author.ToLower().Contains(userInput))
             {
-                book.ShowInfoBook();
+                foundBooks.Add(book);
             }
+        }
+
+        if (foundBooks.Count > 0)
+        {
+            ShowBooks(foundBooks, "Список найденных книг по автору: ");
         }
         else
         {
@@ -131,8 +142,10 @@ class Library
         }
     }
 
-    private void ShowBooksByYearPublication()
+    private void SearchBooksByYearPublication()
     {
+        List<Book> foundBooks = new List<Book>();
+
         Console.WriteLine("Введите год издания книги: ");
 
         if (int.TryParse(Console.ReadLine(), out int yearInput) == false)
@@ -141,16 +154,17 @@ class Library
             return;
         }
 
-        List<Book> foundBook = _library.Where(book => book.YearPublication == yearInput).ToList();
-
-        if (foundBook.Any())
+        foreach (Book book in _library)
         {
-            Console.WriteLine("Список найденных книг по году: ");
-
-            foreach (Book book in foundBook)
+            if (book.YearPublication == yearInput)
             {
-                book.ShowInfoBook();
+                foundBooks.Add(book);
             }
+        }
+
+        if (foundBooks.Count > 0)
+        {
+            ShowBooks(foundBooks, "Список найденных книг по году выпуска: ");
         }
         else
         {
@@ -200,15 +214,15 @@ class Library
                     break;
 
                 case CommandSearchBooksByName:
-                    ShowBooksByName();
+                    SearchBooksByName();
                     break;
 
                 case CommandSearchBooksByAuthor:
-                    ShowBooksByAuthor();
+                    SearchBooksByAuthor();
                     break;
 
                 case CommandSearchBooksByYearPublication:
-                    ShowBooksByYearPublication();
+                    SearchBooksByYearPublication();
                     break;
 
                 case CommandExit:
