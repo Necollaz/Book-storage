@@ -9,26 +9,26 @@ internal class Program
 
 class Library
 {
-    private List<Book> _library = new List<Book>();
+    private List<Book> _shelves = new List<Book>();
 
     private void AddBook()
     {
-        string nameBook;
-        string authorBook;
+        string name;
+        string author;
 
-        int yearBook;
+        int year;
 
         bool yearPublication;
 
         Console.WriteLine("Чтобы добавить книгу в библиотеку, заполните следующие пункты: ");
         Console.Write("Введите название книги: ");
-        nameBook = Console.ReadLine();
+        name = Console.ReadLine();
 
         Console.Write("Введите автора книги: ");
-        authorBook = Console.ReadLine();
+        author = Console.ReadLine();
 
         Console.Write("Введите год выпуска книги: ");
-        yearPublication = int.TryParse(Console.ReadLine(), out yearBook);
+        yearPublication = int.TryParse(Console.ReadLine(), out year);
 
         if (yearPublication == false)
         {
@@ -36,37 +36,37 @@ class Library
             return;
         }
 
-        Book book = new Book(nameBook, authorBook, yearBook);
+        Book book = new Book(name, author, year);
 
-        _library.Add(book);
+        _shelves.Add(book);
 
         Console.WriteLine($"Вы добавили книгу: ");
-        book.ShowInfoBook();
+        book.ShowInfo();
     }
 
     private void DeleteBook()
     {
-        ShowAllBooks();
+        ShowAllBooksInLibrary();
 
-        string numberBooks;
+        string numberBook;
 
         int numberDelete;
 
-        if (_library.Count == 0)
+        if (_shelves.Count == 0)
         {
             Console.WriteLine("Библиотека пуста.");
         }
 
         Console.WriteLine("Выберите книгу которую хотите удалить: ");
-        numberBooks = Console.ReadLine();
+        numberBook = Console.ReadLine();
 
-        if(int.TryParse(numberBooks, out numberDelete) == true)
+        if(int.TryParse(numberBook, out numberDelete) == true)
         {
             numberDelete--;
 
-            if(numberDelete >= 0 && numberDelete <= _library.Count)
+            if(numberDelete >= 0 && numberDelete <= _shelves.Count)
             {
-                _library.RemoveAt(numberDelete);
+                _shelves.RemoveAt(numberDelete);
                 Console.WriteLine("Книга удалена!");
             }
             else
@@ -82,14 +82,14 @@ class Library
 
         for (int i = 0; i < books.Count; i++)
         {
-            Console.WriteLine(i + 1 + ": ");
-            books[i].ShowInfoBook();
+            Console.Write(i + 1 + ": ");
+            books[i].ShowInfo();
         }
     }
 
-    private void ShowAllBooks()
+    private void ShowAllBooksInLibrary()
     {
-        ShowBooks(_library, "Список всех книг в библиотеке: ");
+        ShowBooks(_shelves, "Список всех книг в библиотеке: ");
     }
 
     private void SearchBooksByName()
@@ -99,9 +99,9 @@ class Library
         Console.WriteLine("Введите название книги: ");
         string userInput = Console.ReadLine().ToLower();
 
-        foreach (Book book in _library)
+        foreach (Book book in _shelves)
         {
-            if (book.NameBook.ToLower().Contains(userInput))
+            if (book.Name.ToLower().Contains(userInput))
             {
                 foundBooks.Add(book);
             }
@@ -124,7 +124,7 @@ class Library
         Console.WriteLine("Введите автора книги: ");
         string userInput = Console.ReadLine();
 
-        foreach (Book book in _library)
+        foreach (Book book in _shelves)
         {
             if (book.Author.ToLower().Contains(userInput))
             {
@@ -154,7 +154,7 @@ class Library
             return;
         }
 
-        foreach (Book book in _library)
+        foreach (Book book in _shelves)
         {
             if (book.YearPublication == yearInput)
             {
@@ -210,7 +210,7 @@ class Library
                     break;
 
                 case CommandShowAllBooks:
-                    ShowAllBooks();
+                    ShowAllBooksInLibrary();
                     break;
 
                 case CommandSearchBooksByName:
@@ -226,6 +226,7 @@ class Library
                     break;
 
                 case CommandExit:
+                    Console.WriteLine("Вы вышли из программы.");
                     isWorking = false;
                     break;
 
@@ -243,19 +244,19 @@ class Library
 
 class Book
 {
-    public Book (string nameBook, string author, int yearPublication)
+    public Book (string name, string author, int yearPublication)
     {
-        NameBook = nameBook;
+        Name = name;
         Author = author;
         YearPublication = yearPublication;
     }
 
-    public string NameBook { get; private set; }
+    public string Name { get; private set; }
     public string Author { get; private set; }
     public int YearPublication { get; private set; }
 
-    public void ShowInfoBook()
+    public void ShowInfo()
     {
-        Console.WriteLine($"Книга - {NameBook}. Автор: {Author}, год выпуска {YearPublication}.");
+        Console.WriteLine($"Книга - {Name}. Автор: {Author}, год выпуска {YearPublication}.");
     }
 }
