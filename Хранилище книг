@@ -3,13 +3,82 @@ internal class Program
     private static void Main(string[] args)
     {
         Library library = new Library();
-        library.Work();
+        library.Menu();
     }
 }
 
 class Library
 {
     private List<Book> _shelves = new List<Book>();
+
+    public void Menu()
+    {
+        const string CommandAddBook = "1";
+        const string CommandDeleteBook = "2";
+        const string CommandShowAllBooks = "3";
+        const string CommandSearchBooksByName = "4";
+        const string CommandSearchBooksByAuthor = "5";
+        const string CommandSearchBooksByYearPublication = "6";
+        const string CommandExit = "7";
+
+        string userInput;
+
+        bool isWorking = true;
+
+        while (isWorking)
+        {
+            Console.WriteLine("Добро пожаловать в программу 'Хранилище книг'!");
+            Console.WriteLine("Выберите пункт меню: ");
+            Console.WriteLine($"{CommandAddBook} - Добавить книгу.");
+            Console.WriteLine($"{CommandDeleteBook} - Удалить книгу.");
+            Console.WriteLine($"{CommandShowAllBooks} - Показать все книги.");
+            Console.WriteLine($"{CommandSearchBooksByName} - Поиск книг по имени.");
+            Console.WriteLine($"{CommandSearchBooksByAuthor} - Поиск книг по автору.");
+            Console.WriteLine($"{CommandSearchBooksByYearPublication} - Поиск книг по году выпуска.");
+            Console.WriteLine($"{CommandExit} - Выйти из программы.");
+            userInput = Console.ReadLine();
+
+            switch (userInput)
+            {
+                case CommandAddBook:
+                    AddBook();
+                    break;
+
+                case CommandDeleteBook:
+                    DeleteBook();
+                    break;
+
+                case CommandShowAllBooks:
+                    ShowAllBooksInLibrary();
+                    break;
+
+                case CommandSearchBooksByName:
+                    SearchBooksByName();
+                    break;
+
+                case CommandSearchBooksByAuthor:
+                    SearchBooksByAuthor();
+                    break;
+
+                case CommandSearchBooksByYearPublication:
+                    SearchBooksByYearPublication();
+                    break;
+
+                case CommandExit:
+                    Console.WriteLine("Вы вышли из программы.");
+                    isWorking = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Такой команды нет.");
+                    break;
+            }
+
+            Console.WriteLine("Нажмите любую клавишу чтобы продолжить");
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
 
     private void AddBook()
     {
@@ -57,7 +126,7 @@ class Library
             Console.WriteLine("Библиотека пуста.");
         }
 
-        Console.WriteLine("Выберите книгу которую хотите удалить: ");
+        Console.WriteLine("Выберите номер книги которую хотите удалить: ");
         numberBook = Console.ReadLine();
 
         if(int.TryParse(numberBook, out numberDelete) == true)
@@ -172,74 +241,6 @@ class Library
         }
     }
 
-    public void Work()
-    {
-        const string CommandAddBook = "1";
-        const string CommandDeleteBook = "2";
-        const string CommandShowAllBooks = "3";
-        const string CommandSearchBooksByName = "4";
-        const string CommandSearchBooksByAuthor = "5";
-        const string CommandSearchBooksByYearPublication = "6";
-        const string CommandExit = "7";
-
-        string userInput;
-
-        bool isWorking = true;
-
-        while (isWorking)
-        {
-            Console.WriteLine("Добро пожаловать в программу 'Хранилище книг'!");
-            Console.WriteLine("Выберите пункт меню: ");
-            Console.WriteLine($"{CommandAddBook} - Добавить книгу.");
-            Console.WriteLine($"{CommandDeleteBook} - Удалить книгу.");
-            Console.WriteLine($"{CommandShowAllBooks} - Показать все книги.");
-            Console.WriteLine($"{CommandSearchBooksByName} - Поиск книг по имени.");
-            Console.WriteLine($"{CommandSearchBooksByAuthor} - Поиск книг по автору.");
-            Console.WriteLine($"{CommandSearchBooksByYearPublication} - Поиск книг по году выпуска.");
-            Console.WriteLine($"{CommandExit} - Выйти из программы.");
-            userInput = Console.ReadLine();
-
-            switch (userInput)
-            {
-                case CommandAddBook:
-                    AddBook();
-                    break;
-
-                case CommandDeleteBook:
-                    DeleteBook();
-                    break;
-
-                case CommandShowAllBooks:
-                    ShowAllBooksInLibrary();
-                    break;
-
-                case CommandSearchBooksByName:
-                    SearchBooksByName();
-                    break;
-
-                case CommandSearchBooksByAuthor:
-                    SearchBooksByAuthor();
-                    break;
-
-                case CommandSearchBooksByYearPublication:
-                    SearchBooksByYearPublication();
-                    break;
-
-                case CommandExit:
-                    Console.WriteLine("Вы вышли из программы.");
-                    isWorking = false;
-                    break;
-
-                default:
-                    Console.WriteLine("Такой команды нет.");
-                    break;
-            }
-
-            Console.WriteLine("Нажмите любую клавишу чтобы продолжить");
-            Console.ReadKey();
-            Console.Clear();
-        }
-    }
 }
 
 class Book
