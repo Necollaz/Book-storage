@@ -3,7 +3,7 @@ internal class Program
     private static void Main(string[] args)
     {
         Library library = new Library();
-        library.Menu();
+        library.ShowMenu();
     }
 }
 
@@ -11,7 +11,7 @@ class Library
 {
     private List<Book> _shelves = new List<Book>();
 
-    public void Menu()
+    public void ShowMenu()
     {
         const string CommandAddBook = "1";
         const string CommandDeleteBook = "2";
@@ -87,7 +87,7 @@ class Library
 
         int year;
 
-        bool yearPublication;
+        bool isYearPublication;
 
         Console.WriteLine("Чтобы добавить книгу в библиотеку, заполните следующие пункты: ");
         Console.Write("Введите название книги: ");
@@ -97,9 +97,9 @@ class Library
         author = Console.ReadLine();
 
         Console.Write("Введите год выпуска книги: ");
-        yearPublication = int.TryParse(Console.ReadLine(), out year);
+        isYearPublication = int.TryParse(Console.ReadLine(), out year);
 
-        if (yearPublication == false)
+        if (isYearPublication == false)
         {
             Console.WriteLine("Некорректный ввод! Ввод должен содержать только цифры.");
             return;
@@ -124,6 +124,7 @@ class Library
         if (_shelves.Count == 0)
         {
             Console.WriteLine("Библиотека пуста.");
+            return;
         }
 
         Console.WriteLine("Выберите номер книги которую хотите удалить: ");
@@ -133,7 +134,7 @@ class Library
         {
             numberDelete--;
 
-            if(numberDelete >= 0 && numberDelete <= _shelves.Count)
+            if(numberDelete >= 0 && numberDelete < _shelves.Count)
             {
                 _shelves.RemoveAt(numberDelete);
                 Console.WriteLine("Книга удалена!");
